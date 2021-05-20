@@ -1,0 +1,15 @@
+{
+  "ego": 60,
+
+  "car": 0,
+  "trailer": 0,
+
+  "bicycle": 100,
+
+  "motorcycle": 180,
+
+  "bus": 240,
+  "truck": 240,
+
+  "pedestrian": 300
+}

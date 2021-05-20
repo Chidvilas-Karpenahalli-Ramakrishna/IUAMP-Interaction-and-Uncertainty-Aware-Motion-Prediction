@@ -1,0 +1,24 @@
+{
+  "ego": 60,
+
+  "vehicle.car": 0,
+  "vehicle.trailer": 0,
+  "vehicle.emergency.police": 0,
+
+  "vehicle.bicycle": 100,
+
+  "vehicle.motorcycle": 180,
+
+  "vehicle.bus.bendy": 240,
+  "vehicle.bus.rigid": 240,
+  "vehicle.truck": 240,
+  "vehicle.emergency.ambulance": 240,
+
+  "human.pedestrian.adult": 300,
+  "human.pedestrian.child": 300,
+  "human.pedestrian.construction_worker": 300,
+  "human.pedestrian.personal_mobility": 300,
+  "human.pedestrian.police_officer": 300,
+  "human.pedestrian.stroller": 300,
+  "human.pedestrian.wheelchair": 300
+}
