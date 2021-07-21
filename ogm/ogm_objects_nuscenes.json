@@ -1,0 +1,24 @@
+[
+  "ego",
+
+  "vehicle.car",
+  "vehicle.trailer",
+  "vehicle.emergency.police",
+
+  "vehicle.bicycle",
+
+  "vehicle.motorcycle",
+
+  "vehicle.bus.bendy",
+  "vehicle.bus.rigid",
+  "vehicle.truck",
+  "vehicle.emergency.ambulance",
+
+  "human.pedestrian.adult",
+  "human.pedestrian.child",
+  "human.pedestrian.construction_worker",
+  "human.pedestrian.personal_mobility",
+  "human.pedestrian.police_officer",
+  "human.pedestrian.stroller",
+  "human.pedestrian.wheelchair"
+]

@@ -67,10 +67,13 @@ class NuScenesDataFormat:
         The method accesses the annotation information and calculates the heading
         angle and anchor points needed to create BEV images.
         """
-        __bounding_box = {'x_anchor': [], 'y_anchor': [], 'heading_angle': []}
+        __bounding_box = {'x_anchor': [], 'y_anchor': [], 'heading_angle': [],
+                          'x2': [], 'y2': [], 'x3': [], 'y3': [], 'x4': [], 'y4': []}
         for i in range(0, len(input_data['rotation'])):
             __heading_angle = NuScenesDataFormat.get_euler_angles(
                 input_data['rotation'][i])
+
+            # here x-anchor and y-anchor are needed to draw rectangles:
             __x_anchor = input_data['x'][i] - (((input_data['width'][i] / 2) *
                                                 np.cos(__heading_angle)) -
                                                ((input_data['height'][i] / 2) *
@@ -82,6 +85,40 @@ class NuScenesDataFormat:
             __bounding_box['x_anchor'].append(__x_anchor)
             __bounding_box['y_anchor'].append(__y_anchor)
             __bounding_box['heading_angle'].append(np.degrees(__heading_angle))
+
+            # Find other co-ordinates of rectangle to create OGMs:
+            __x2 = input_data['x'][i] + (((input_data['width'][i] / 2) *
+                                          np.cos(__heading_angle)) +
+                                         ((input_data['height'][i] / 2) *
+                                          np.sin(__heading_angle)))
+            __y2 = input_data['y'][i] + (((input_data['width'][i] / 2) *
+                                          np.sin(__heading_angle)) -
+                                         ((input_data['height'][i] / 2) *
+                                         np.cos(__heading_angle)))
+            __bounding_box['x2'].append(__x2)
+            __bounding_box['y2'].append(__y2)
+
+            __x3 = input_data['x'][i] + (((input_data['width'][i] / 2) *
+                                          np.cos(__heading_angle)) -
+                                         ((input_data['height'][i] / 2) *
+                                          np.sin(__heading_angle)))
+            __y3 = input_data['y'][i] + (((input_data['width'][i] / 2) *
+                                          np.sin(__heading_angle)) +
+                                         ((input_data['height'][i] / 2) *
+                                         np.cos(__heading_angle)))
+            __bounding_box['x3'].append(__x3)
+            __bounding_box['y3'].append(__y3)
+
+            __x4 = input_data['x'][i] - (((input_data['width'][i] / 2) *
+                                          np.cos(__heading_angle)) +
+                                         ((input_data['height'][i] / 2) *
+                                          np.sin(__heading_angle)))
+            __y4 = input_data['y'][i] - (((input_data['width'][i] / 2) *
+                                          np.sin(__heading_angle)) -
+                                         ((input_data['height'][i] / 2) *
+                                         np.cos(__heading_angle)))
+            __bounding_box['x4'].append(__x4)
+            __bounding_box['y4'].append(__y4)
 
         __bounding_box_data = pd.DataFrame(__bounding_box)
         __data = pd.concat([input_data, __bounding_box_data], axis=1, join='inner')

@@ -1,5 +1,6 @@
 from data_preprocessor import preprocessor
 from bev import bev
+from ogm import ogm
 
 # User-path definitions:
 """
@@ -17,14 +18,28 @@ stored (this includes the gathered information file, formatted data files and th
 bird's eye view (BEV) images).
 """
 
-nuscenes_data_input_path = '/home/chid/Master thesis/IAARNP/data/sets/' \
-                           'nuscenes'
+nuscenes_data_input_path = '/home/chid/Master thesis/IAUMP/data/sets/nuscenes'
+
 nuscenes_data_version = 'v1.0-trainval'
 
-obj_track_data_input_path = '/home/chid/Master thesis/IAARNP/data/' \
-                            'obj_track/tracking_result.json'
+obj_track_data_input_path = '/home/chid/Master thesis/IAUMP/' \
+                            'data/obj_track/tracking_result.json'
 
-data_output_path = '/home/chid/Master thesis/IAARNP/output'
+data_output_path = '/home/chid/Master thesis/IAUMP/output'
+
+# Defining additional parameters:
+'''
+1.) desired_ogm_size: It is the desired number of row grids vs. column grids
+2.) distance: It is the distance that should be covered in BEV images and OGMs 
+from the center.
+Note: distance is only in one direction. For Ex: 80 represents 80m in one direction,
+which means the BEV image covers (160m, 160m)
+'''
+distance = (80, 80)
+bev_fig_size = (1.5, 1.5)
+bev_dpi = 200
+desired_ogm_size = (10, 10)
+
 
 # Choose what steps you wish to perform:
 """
@@ -59,12 +74,16 @@ gather_information_nuscenes = False
 gather_information_obj_track = False
 
 # format data and writing .csv files
-format_data_nuscenes = True
+format_data_nuscenes = False
 format_data_obj_track = False
 
 # generate BEV images:
 generate_bev_nuscenes = False
 generate_bev_obj_track = False
+
+# generate OGMs:
+generate_ogm_nuscenes = True
+generate_ogm_obj_track = False
 
 
 # Logic based on user definition:
@@ -97,7 +116,8 @@ if format_data_obj_track:
 if generate_bev_nuscenes:
     generator = bev.NuScenesBEV(
         nuscenes_data_path=nuscenes_data_input_path, out_path=data_output_path,
-        data_version=nuscenes_data_version)
+        data_version=nuscenes_data_version, distance=distance, fig_size=bev_fig_size,
+        dpi=bev_dpi)
     generator.generate_bev()
 
 if generate_bev_obj_track:
@@ -105,3 +125,8 @@ if generate_bev_obj_track:
         nuscenes_data_path=nuscenes_data_input_path, out_path=data_output_path,
         data_version=nuscenes_data_version)
     generator.generate_bev()
+
+if generate_ogm_nuscenes:
+    ogm_generator = ogm.NuscenesOGM(output_path=data_output_path,
+                                    size_of_ogm=desired_ogm_size, distance=distance)
+    ogm_generator.generate_ogm()

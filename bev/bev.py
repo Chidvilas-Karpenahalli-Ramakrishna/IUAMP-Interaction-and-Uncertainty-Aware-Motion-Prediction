@@ -30,12 +30,15 @@ class NuScenesBEV:
     The Value space can be used to code velocity and at present not considered and
     kept at 1.
     """
-    def __init__(self, nuscenes_data_path, out_path, data_version):
+    def __init__(self, nuscenes_data_path, out_path, data_version, distance, fig_size, dpi):
         self.__input_path = nuscenes_data_path
         self.__nuscenes_info_path = os.sep.join([out_path, data_version])
         self.__out_path = out_path
         self.__formatted_data_path = os.sep.join(
             [out_path, 'nuscenes_formatted_data'])
+        self.__distance = distance
+        self.__fig_size = fig_size
+        self.__dpi = dpi
 
     def plot_bev(self, plotting_data, location, bev_save_path):
         """
@@ -54,7 +57,7 @@ class NuScenesBEV:
                 __nusc_map = NuScenesMap(dataroot=self.__input_path, map_name=location)
                 __bitmap = BitMap(__nusc_map.dataroot, __nusc_map.map_name, 'basemap')
                 __fig, __ax = __nusc_map.render_layers(['drivable_area'], bitmap=__bitmap)
-
+                
                 for i in range(0, len(plotting_data)):
                     if plotting_data['category'][i] in __code:
                         __x = plotting_data['x_anchor'][i]
@@ -79,11 +82,18 @@ class NuScenesBEV:
                 Crop the area as desired. Currently 80m is cropped from the center in
                 all four directions.
                 """
-                plt.ylim(bottom=(plotting_data['y'][0])-80, top=(plotting_data['y'][0])+80)
-                plt.xlim(left=(plotting_data['x'][0])-80, right=(plotting_data['x'][0])+80)
-                plt.grid('off')
-                plt.axis('off')
-                plt.savefig(f'{bev_save_path}.png')
+                __ax.set_ylim(top=(plotting_data['y'][0])+self.__distance[1],
+                              bottom=(plotting_data['y'][0])-self.__distance[1])
+                __ax.set_xlim(left=(plotting_data['x'][0])-self.__distance[0],
+                              right=(plotting_data['x'][0])+self.__distance[0])
+                __ax.grid(False)
+                __ax.axis('off')
+                __ax.get_legend().remove()                
+                figure = plt.gcf()
+
+                # Set the size of the image as required.
+                figure.set_size_inches(self.__fig_size)
+                plt.savefig(f'{bev_save_path}.png', bbox_inches='tight', pad_inches=0, dpi=self.__dpi)
                 plt.close()
 
             """
@@ -222,11 +232,15 @@ class ObjTrackBEV:
                 Crop the area as desired. Currently 80m is cropped from the center in
                 all four directions.
                 """
-                plt.ylim(bottom=(plotting_data['y'][0])-80, top=(plotting_data['y'][0])+80)
-                plt.xlim(left=(plotting_data['x'][0])-80, right=(plotting_data['x'][0])+80)
-                plt.grid('off')
-                plt.axis('off')
-                plt.savefig(f'{bev_save_path}.png')
+                # todo: change the code as per NuScenes:
+                __ax.set_ylim(top=(plotting_data['y'][0])+50, bottom=(plotting_data['y'][0])-50)
+                __ax.set_xlim(left=(plotting_data['x'][0])-50, right=(plotting_data['x'][0])+50)
+                __ax.grid(False)
+                __ax.axis('off')
+                __ax.get_legend().remove()                
+                figure = plt.gcf()
+                figure.set_size_inches(4, 4)
+                plt.savefig(f'{bev_save_path}.png', bbox_inches='tight', pad_inches=0, dpi=300)
                 plt.close()
 
             """
