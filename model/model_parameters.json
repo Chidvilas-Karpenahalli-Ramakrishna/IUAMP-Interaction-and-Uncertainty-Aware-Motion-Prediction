@@ -1,0 +1,11 @@
+{
+  "early_stopping_patience": 9,
+
+  "reduce_learning_rate_patience": 3,
+  "learning_rate_reduction_factor": 0.5,
+  "min_delta": 0.001,
+  "minimum_learning_rate": 0.0001,
+
+  "term_to_monitor": "val_loss",
+  "mode_to_monitor": "min"
+}

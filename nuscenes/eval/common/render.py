@@ -1,5 +1,5 @@
 # nuScenes dev-kit.
-# Code written by Holger Caesar, Varun Bankiti, and Alex Lang, 2019.
+# IAUMP written by Holger Caesar, Varun Bankiti, and Alex Lang, 2019.
 
 from typing import Any
 

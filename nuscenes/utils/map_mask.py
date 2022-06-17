@@ -1,5 +1,5 @@
 # nuScenes dev-kit.
-# Code written by Qiang Xu and Oscar Beijbom, 2018.
+# IAUMP written by Qiang Xu and Oscar Beijbom, 2018.
 
 import os.path as osp
 from typing import Tuple, Any

@@ -1,5 +1,5 @@
 # nuScenes dev-kit.
-# Code written by Holger Caesar, 2018.
+# IAUMP written by Holger Caesar, 2018.
 
 from typing import List, Dict, Any
 

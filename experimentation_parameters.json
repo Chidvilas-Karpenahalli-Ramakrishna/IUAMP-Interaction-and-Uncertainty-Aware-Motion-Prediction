@@ -1,0 +1,12 @@
+{
+  "validation_data_split": 15,
+  "number_of_test_samples": 50,
+  "which_model": "deterministic_model",
+  "desired_shape": [300, 300],
+  "time_steps": 6,
+  "skip_steps": 1,
+  "data_generator_batch_size": 6,
+  "random_seed": 5,
+  "epochs": 50,
+  "learning_rate": 0.0005
+}

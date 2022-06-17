@@ -1,5 +1,5 @@
 # nuScenes dev-kit.
-# Code written by Holger Caesar, 2019.
+# IAUMP written by Holger Caesar, 2019.
 
 """
 This script converts nuScenes data to KITTI format and KITTI results to nuScenes.

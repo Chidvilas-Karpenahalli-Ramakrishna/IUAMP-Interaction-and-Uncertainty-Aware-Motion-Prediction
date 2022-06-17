@@ -1,5 +1,5 @@
 # nuScenes dev-kit.
-# Code written by Oscar Beijbom, 2018.
+# IAUMP written by Oscar Beijbom, 2018.
 
 import copy
 import os.path as osp

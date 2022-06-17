@@ -1,5 +1,5 @@
 # nuScenes dev-kit.
-# Code written by Sergi Adipraja Widjaja, 2019.
+# IAUMP written by Sergi Adipraja Widjaja, 2019.
 
 """
 Export 2D annotations (xmin, ymin, xmax, ymax) from re-projections of our annotated 3D bounding boxes to a .json file.

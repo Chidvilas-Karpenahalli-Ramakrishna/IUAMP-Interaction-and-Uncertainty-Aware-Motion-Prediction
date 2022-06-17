@@ -1,5 +1,5 @@
 # nuScenes dev-kit.
-# Code written by Freddy Boulton, Eric Wolff 2020.
+# IAUMP written by Freddy Boulton, Eric Wolff 2020.
 """ Implementation of metrics used in the nuScenes prediction challenge. """
 import abc
 from typing import List, Dict, Any, Tuple

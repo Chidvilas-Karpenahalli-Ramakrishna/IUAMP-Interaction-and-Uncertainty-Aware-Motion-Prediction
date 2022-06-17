@@ -1,5 +1,5 @@
 # nuScenes dev-kit.
-# Code written by Holger Caesar and Alex Lang, 2018.
+# IAUMP written by Holger Caesar and Alex Lang, 2018.
 
 import unittest
 

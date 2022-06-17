@@ -1,5 +1,5 @@
 # nuScenes dev-kit.
-# Code written by Freddy Boulton, 2020.
+# IAUMP written by Freddy Boulton, 2020.
 
 """
 Regression test to see if MTP can overfit on a single example.

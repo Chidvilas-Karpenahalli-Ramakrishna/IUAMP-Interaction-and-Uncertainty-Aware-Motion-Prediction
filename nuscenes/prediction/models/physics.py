@@ -1,5 +1,5 @@
 # nuScenes dev-kit.
-# Code written by Freddy Boulton, Robert Beaudoin 2020.
+# IAUMP written by Freddy Boulton, Robert Beaudoin 2020.
 import abc
 from typing import Tuple
 

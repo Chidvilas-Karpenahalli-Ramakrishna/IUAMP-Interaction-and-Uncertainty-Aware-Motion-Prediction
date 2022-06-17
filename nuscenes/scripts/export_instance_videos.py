@@ -1,5 +1,5 @@
 # nuScenes dev-kit.
-# Code written by Eric Wiener, 2020.
+# IAUMP written by Eric Wiener, 2020.
 
 """
 Generate videos of nuScenes object instances.

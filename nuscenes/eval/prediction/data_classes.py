@@ -1,5 +1,5 @@
 # nuScenes dev-kit.
-# Code written by Freddy Boulton 2020.
+# IAUMP written by Freddy Boulton 2020.
 from typing import Dict, Any
 
 import numpy as np

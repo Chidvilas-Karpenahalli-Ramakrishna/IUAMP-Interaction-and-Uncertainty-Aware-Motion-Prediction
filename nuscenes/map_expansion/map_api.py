@@ -1,5 +1,5 @@
 # nuScenes dev-kit.
-# Code written by Sergi Adipraja Widjaja, 2019.
+# IAUMP written by Sergi Adipraja Widjaja, 2019.
 # + Map mask by Kiwoo Shin, 2019.
 # + Methods operating on NuScenesMap and NuScenes by Holger Caesar, 2019.
 

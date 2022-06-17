@@ -1,5 +1,5 @@
 # nuScenes dev-kit.
-# Code written by Sourabh Vora, 2019.
+# IAUMP written by Sourabh Vora, 2019.
 
 import os
 import unittest

@@ -1,5 +1,5 @@
 # nuScenes dev-kit.
-# Code written by Freddy Boulton, 2020.
+# IAUMP written by Freddy Boulton, 2020.
 """ Script for generating a submission to the nuScenes prediction challenge. """
 import argparse
 import json

@@ -1,5 +1,5 @@
 # nuScenes dev-kit.
-# Code written by Holger Caesar & Oscar Beijbom, 2018.
+# IAUMP written by Holger Caesar & Oscar Beijbom, 2018.
 
 import argparse
 import json

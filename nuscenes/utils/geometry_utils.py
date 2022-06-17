@@ -1,5 +1,5 @@
 # nuScenes dev-kit.
-# Code written by Oscar Beijbom and Alex Lang, 2018.
+# IAUMP written by Oscar Beijbom and Alex Lang, 2018.
 
 from enum import IntEnum
 from typing import Tuple

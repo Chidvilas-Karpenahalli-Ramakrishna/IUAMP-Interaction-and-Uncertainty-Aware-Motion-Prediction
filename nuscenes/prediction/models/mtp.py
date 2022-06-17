@@ -1,5 +1,5 @@
 # nuScenes dev-kit.
-# Code written by Freddy Boulton, Elena Corina Grigore 2020.
+# IAUMP written by Freddy Boulton, Elena Corina Grigore 2020.
 
 import math
 import random

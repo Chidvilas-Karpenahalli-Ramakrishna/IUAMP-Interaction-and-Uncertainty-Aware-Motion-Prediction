@@ -1,5 +1,5 @@
 # nuScenes dev-kit.
-# Code written by Fong Whye Kit, 2020.
+# IAUMP written by Fong Whye Kit, 2020.
 
 from typing import Dict, Iterable, List, Tuple
 

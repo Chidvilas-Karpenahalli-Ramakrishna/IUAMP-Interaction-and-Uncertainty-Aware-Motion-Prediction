@@ -1,27 +1,37 @@
-# In-built modules and packages:
+# Required built-in modules:
+# -----------------------------
 import json
 from pathlib import Path
 import os
 
-# Additional modules and packages:
+# Additional libraries:
+# ----------------------
 from tqdm import tqdm
 
 
+# Info gathering class for nuScenes data:
+# ---------------------------------------------
 class NuScenesInfo:
     """
-    Class gathers the required tokens and structures them scene-wise and in turn
-    sample-wise for easy access during the data formatting and BEV generation step
+    Class gathers the required tokens from nuScenes meta-data. And structures them 
+    scene-wise and sample-wise for easy access during the data formatting and 
+    BEV generation step.
     """
+
     def __init__(self, input_path):
+        """
+        :param input_path: The path to the directory where the nuScenes meta-data is stored
+        """
         self.input_path = input_path
         self.scene_info = []
         self.scene_samples = []
         self.locations = []
         self.ego_pose_tokens = []
 
+
     def scene_list_getter(self):
         """
-        Method gets the list of scenes in the downloaded version of nuScenes data.
+        This method gets the list of scenes in the downloaded version of nuScenes data.
         """
         try:
             with open(Path(os.sep.join([str(self.input_path), 'scene.json']))) as scene_file:
@@ -36,10 +46,13 @@ class NuScenesInfo:
         except FileNotFoundError:
             print("scene.json file not found in the directory.")
 
+
     def sample_token_getter(self, scene_info):
         """
         Each scene has approximately 40 samples that are annotated. The present
         method gets all the sample tokens for a particular scene.
+
+        :param scene_info: A list containing the info files.
         """
         try:
             with open(Path(os.sep.join([str(self.input_path), 'sample.json']))) as sample_file:
@@ -61,11 +74,14 @@ class NuScenesInfo:
         del self.scene_samples
         return self.scene_info
 
+
     def location_getter(self, scene_info):
         """
         To generate BEV images with an underlying map, the location in which the
         scene was recorded needs to be know. The present method gathers the
         location information for each scene.
+
+        :param scene_info: A list of info files.
         """
         try:
             with open(Path(os.sep.join([str(self.input_path), 'log.json']))) as log_file:
@@ -85,11 +101,14 @@ class NuScenesInfo:
         del self.locations
         return self.scene_info
 
+
     def ego_pose_token_getter(self, scene_info):
         """
         The BEV images are plotted along with the EGO vehicle at the centre. The
         present method accesses the EGO token with which the EGO location and
         orientation can be obtained.
+
+        :param scene_info: A list of info files.
         """
         try:
             with open(Path(os.sep.join([str(self.input_path), 'sample_data.json']))) as sample_data_file:
@@ -114,6 +133,8 @@ class NuScenesInfo:
         return self.scene_info
 
 
+# Info gathering class for object-tracker:
+# ---------------------------------------------
 class ObjTrackInfo:
     """
     The Class has methods that are responsible for rearranging the output of the
@@ -121,11 +142,20 @@ class ObjTrackInfo:
     tracker output is restructured into a .json file where the tracked information
     is stored scene-wise.
     """
+
     def __init__(self, nuscenes_info_path, obj_track_input_path, data_version):
+        """
+        :param nuscenes_info_path: The path of directory where meta-data is stored.
+
+        :param obj_track_input_path: The path where the object-tracker .json is stored.
+
+        :param data_version: The version of the nuScenes data that is downloaded.
+        """
         self.__nuscenes_info_path = nuscenes_info_path
         self.__obj_track_input_path = obj_track_input_path
         self.__data_version = data_version
         self.__tracked_data = []
+
 
     def get_scene_sample_info(self):
         """

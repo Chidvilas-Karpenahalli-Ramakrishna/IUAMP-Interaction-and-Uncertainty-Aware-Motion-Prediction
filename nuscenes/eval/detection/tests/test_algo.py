@@ -1,5 +1,5 @@
 # nuScenes dev-kit.
-# Code written by Oscar Beijbom and Varun Bankiti, 2019.
+# IAUMP written by Oscar Beijbom and Varun Bankiti, 2019.
 
 import random
 import unittest

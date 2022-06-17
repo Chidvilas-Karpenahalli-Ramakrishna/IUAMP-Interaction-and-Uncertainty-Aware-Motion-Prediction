@@ -1,30 +1,45 @@
-# In-built modules and packages:
+# Required built-in modules:
+# -----------------------------
 import json
 from pathlib import Path
 import os
 import shutil
 import gc
 
-# Additional modules and packages:
+# Additional required libraries and modules:
+# ----------------------------------------------
 import pandas as pd
 import numpy as np
 from tqdm import tqdm
 from nuscenes.nuscenes import NuScenes
 
 
+# Data formatting class for nuScenes data:
+# ----------------------------------------------
 class NuScenesDataFormat:
     """
     The Class is meant to format the data to a tabular format where each sample
-    info is stored as a .csv file with each scene. This is done for ease of access
-    and ease of generating BEV images.
+    info is stored as a .csv file under each scene directory. This is done for ease of 
+    access and ease of generating BEV images.
     """
+
     def __init__(self, input_path, output_path, version, gathered_info_path):
+        """
+        :param input_path: The path to the directory containing nuScenes meta-data
+
+        :param output_path: The path to the directory where the output files will be stored.
+
+        :param version: The version of the nuScenes dataset that is downloaded
+
+        :param gathered_info_path: The path to the directory where info files are stored.
+        """
         self.__gathered_info_path = gathered_info_path
         self.__meta_data = input_path
         self.__output_path = output_path
         self.__data_version = version
         self.__json_files = []
         self.__info_file = ''
+
 
     def read_files(self):
         """
@@ -50,22 +65,28 @@ class NuScenesDataFormat:
             except FileNotFoundError:
                 print(f"The corresponding meta data for {__info_file_version} dataset was not found.")
 
+
     @staticmethod
     def get_euler_angles(quaternion):
         """
-        takes a 4D quaternion and returns only the yaw angle in radians. Just add
+        Takes a 4D quaternion and returns only the yaw angle in radians. Just add
         additional code to get pitch and roll if needed.
+
+        :param quarternion: The quarternion info given as a list in nuScenes dataset
         """
         __numerator = 2 * (quaternion[0]*quaternion[3]+quaternion[1]*quaternion[2])
         __denominator = 1 - (2*(np.square(quaternion[2])+np.square(quaternion[3])))
         __yaw_angle = np.arctan2(__numerator, __denominator)
         return __yaw_angle
 
+
     @staticmethod
     def bounding_box_info(input_data):
         """
         The method accesses the annotation information and calculates the heading
-        angle and anchor points needed to create BEV images.
+        angle and anchor points needed to create bounding boxes in BEV images.
+
+        :param input_data: A pandas dataframe
         """
         __bounding_box = {'x_anchor': [], 'y_anchor': [], 'heading_angle': [],
                           'x2': [], 'y2': [], 'x3': [], 'y3': [], 'x4': [], 'y4': []}
@@ -73,7 +94,7 @@ class NuScenesDataFormat:
             __heading_angle = NuScenesDataFormat.get_euler_angles(
                 input_data['rotation'][i])
 
-            # here x-anchor and y-anchor are needed to draw rectangles:
+            # Here x-anchor and y-anchor are needed to draw rectangles:
             __x_anchor = input_data['x'][i] - (((input_data['width'][i] / 2) *
                                                 np.cos(__heading_angle)) -
                                                ((input_data['height'][i] / 2) *
@@ -86,7 +107,7 @@ class NuScenesDataFormat:
             __bounding_box['y_anchor'].append(__y_anchor)
             __bounding_box['heading_angle'].append(np.degrees(__heading_angle))
 
-            # Find other co-ordinates of rectangle to create OGMs:
+            # Find other co-ordinates of rectangle which will be used later to create OGMs:
             __x2 = input_data['x'][i] + (((input_data['width'][i] / 2) *
                                           np.cos(__heading_angle)) +
                                          ((input_data['height'][i] / 2) *
@@ -124,6 +145,7 @@ class NuScenesDataFormat:
         __data = pd.concat([input_data, __bounding_box_data], axis=1, join='inner')
 
         return __data
+
 
     def data_formatter(self):
         """
@@ -209,14 +231,33 @@ class NuScenesDataFormat:
                   "information before data formatting.")
 
 
+
+# Object tracker formatting class:
+# -------------------------------------
 class ObjTrackDataFormat:
+    """
+    The Class is meant to format the data to a tabular format where each sample
+    info is stored as a .csv file under each scene directory for object tracker data. 
+    This is done for ease of access and ease of generating object trcaker BEV images.
+    """
+
     def __init__(self, input_path, output_path, version, gathered_info_path):
+        """
+        :param input_path: The path to the directory containing nuScenes meta-data
+
+        :param output_path: The path to the directory where the output files will be stored.
+
+        :param version: The version of the nuScenes dataset that is downloaded
+
+        :param gathered_info_path: The path to the directory where info files are stored.
+        """
         self.__gathered_info_path = gathered_info_path
         self.__meta_data = input_path
         self.__output_path = output_path
         self.__data_version = version
         self.__info_files = []
         self.__info_file = ''
+
 
     def read_files(self):
         """
@@ -243,24 +284,31 @@ class ObjTrackDataFormat:
                       "be halted. Please perform info gathering before attempting data "
                       "formatting or check the path provided for the info file.")
 
+
     @staticmethod
     def get_euler_angles(quaternion):
         """
-        takes a 4D quaternion and returns only the yaw angle in radians. Just add
+        Takes a 4D quaternion and returns only the yaw angle in radians. Just add
         additional code to get pitch and roll if needed.
+
+        :param quarternion: A list containing the quarternion info provided by the object tracker.
         """
         __numerator = 2 * (quaternion[0]*quaternion[3]+quaternion[1]*quaternion[2])
         __denominator = 1 - (2*(np.square(quaternion[2])+np.square(quaternion[3])))
         __yaw_angle = np.arctan2(__numerator, __denominator)
         return __yaw_angle
 
+
     @staticmethod
     def bounding_box_info(input_data):
         """
         The method accesses the annotation information and calculates the heading
         angle and anchor points needed to create BEV images.
+
+        :param input_data: Apandas dataframe.
         """
-        __bounding_box = {'x_anchor': [], 'y_anchor': [], 'heading_angle': []}
+        __bounding_box = {'x_anchor': [], 'y_anchor': [], 'heading_angle': [],
+                          'x2': [], 'y2': [], 'x3': [], 'y3': [], 'x4': [], 'y4': []}
         for i in range(0, len(input_data['rotation'])):
             __heading_angle = ObjTrackDataFormat.get_euler_angles(
                 input_data['rotation'][i])
@@ -277,12 +325,51 @@ class ObjTrackDataFormat:
             __bounding_box['y_anchor'].append(__y_anchor)
             __bounding_box['heading_angle'].append(np.degrees(__heading_angle))
 
+            # Find other co-ordinates of rectangle to create OGMs:
+            __x2 = input_data['x'][i] + (((input_data['width'][i] / 2) *
+                                          np.cos(__heading_angle)) +
+                                         ((input_data['height'][i] / 2) *
+                                          np.sin(__heading_angle)))
+            __y2 = input_data['y'][i] + (((input_data['width'][i] / 2) *
+                                          np.sin(__heading_angle)) -
+                                         ((input_data['height'][i] / 2) *
+                                          np.cos(__heading_angle)))
+            __bounding_box['x2'].append(__x2)
+            __bounding_box['y2'].append(__y2)
+
+            __x3 = input_data['x'][i] + (((input_data['width'][i] / 2) *
+                                          np.cos(__heading_angle)) -
+                                         ((input_data['height'][i] / 2) *
+                                          np.sin(__heading_angle)))
+            __y3 = input_data['y'][i] + (((input_data['width'][i] / 2) *
+                                          np.sin(__heading_angle)) +
+                                         ((input_data['height'][i] / 2) *
+                                          np.cos(__heading_angle)))
+            __bounding_box['x3'].append(__x3)
+            __bounding_box['y3'].append(__y3)
+
+            __x4 = input_data['x'][i] - (((input_data['width'][i] / 2) *
+                                          np.cos(__heading_angle)) +
+                                         ((input_data['height'][i] / 2) *
+                                          np.sin(__heading_angle)))
+            __y4 = input_data['y'][i] - (((input_data['width'][i] / 2) *
+                                          np.sin(__heading_angle)) -
+                                         ((input_data['height'][i] / 2) *
+                                          np.cos(__heading_angle)))
+            __bounding_box['x4'].append(__x4)
+            __bounding_box['y4'].append(__y4)
+
         __bounding_box_data = pd.DataFrame(__bounding_box)
         __data = pd.concat([input_data, __bounding_box_data], axis=1, join='inner')
 
         return __data
 
+
     def data_formatter(self):
+        """
+        This is the main method of the Class which calls other staticmethods creates data-
+        formatted files for object tracker data.
+        """
         print("Started data formatting.")
         __obj_track_info_path = os.sep.join([self.__output_path, self.__info_file])
         __ego_pose_path = os.sep.join(
@@ -334,7 +421,8 @@ class ObjTrackDataFormat:
                                     __tracking_data['y'].append(each_token['translation'][1])
                                     __tracking_data['rotation'].append(
                                         np.array(each_token['rotation'], dtype=float))
-                                    # dimension as per EGO model (Renault zoe)
+                                    
+                                    # Dimension are defined as per nuScenes EGO car (Renault zoe)
                                     __tracking_data['height'].append(1.730)
                                     __tracking_data['width'].append(4.084)
                                     __tracking_data['category'].append('ego')
@@ -366,6 +454,7 @@ class ObjTrackDataFormat:
                             __saving_path = os.sep.join([__scene_path, __file_name])
                             __formatted_data.to_csv(path_or_buf=__saving_path,
                                                     index=False, encoding='utf-8')
+            
             """
             Free some memory. Unreachable objects from the NuScenes module can 
             cause memory issues and trigger:

@@ -1,5 +1,5 @@
 # nuScenes dev-kit.
-# Code written by Freddy Boulton, 2020.
+# IAUMP written by Freddy Boulton, 2020.
 
 """ Script for running baseline models on a given nuscenes-split. """
 

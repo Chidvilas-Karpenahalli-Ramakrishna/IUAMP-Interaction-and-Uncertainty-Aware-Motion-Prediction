@@ -1,5 +1,5 @@
 # nuScenes dev-kit.
-# Code written by Oscar Beijbom, Holger Caesar & Fong Whye Kit, 2020.
+# IAUMP written by Oscar Beijbom, Holger Caesar & Fong Whye Kit, 2020.
 
 import json
 import math

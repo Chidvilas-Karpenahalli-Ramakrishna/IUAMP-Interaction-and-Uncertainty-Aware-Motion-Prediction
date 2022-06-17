@@ -1,5 +1,5 @@
 # nuScenes dev-kit.
-# Code written by Holger Caesar, Caglayan Dicle and Oscar Beijbom, 2019.
+# IAUMP written by Holger Caesar, Caglayan Dicle and Oscar Beijbom, 2019.
 
 from typing import Dict, Tuple, Any
 

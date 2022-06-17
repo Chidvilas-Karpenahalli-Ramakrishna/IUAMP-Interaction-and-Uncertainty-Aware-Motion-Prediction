@@ -1,5 +1,5 @@
 # nuScenes dev-kit.
-# Code written by Freddy Boulton.
+# IAUMP written by Freddy Boulton.
 
 import json
 import os

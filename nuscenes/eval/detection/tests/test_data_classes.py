@@ -1,5 +1,5 @@
 # nuScenes dev-kit.
-# Code written by Oscar Beijbom and Alex Lang, 2019.
+# IAUMP written by Oscar Beijbom and Alex Lang, 2019.
 
 import json
 import os

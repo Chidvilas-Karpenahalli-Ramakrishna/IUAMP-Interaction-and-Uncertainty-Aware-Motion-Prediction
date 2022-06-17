@@ -1,5 +1,5 @@
 # nuScenes dev-kit.
-# Code written by Alex Lang and Holger Caesar, 2019.
+# IAUMP written by Alex Lang and Holger Caesar, 2019.
 
 import os
 from os import path as osp

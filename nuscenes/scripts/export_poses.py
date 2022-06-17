@@ -1,5 +1,5 @@
 # nuScenes dev-kit.
-# Code contributed by jean-lucas, 2020.
+# IAUMP contributed by jean-lucas, 2020.
 
 """
 Exports the nuScenes ego poses as "GPS" coordinates (lat/lon) for each scene into JSON or KML formatted files.

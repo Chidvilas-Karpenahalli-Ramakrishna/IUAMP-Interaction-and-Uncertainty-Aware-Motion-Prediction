@@ -1,5 +1,5 @@
 # nuScenes dev-kit.
-# Code written by Holger Caesar & Oscar Beijbom, 2019.
+# IAUMP written by Holger Caesar & Oscar Beijbom, 2019.
 
 import abc
 from collections import defaultdict

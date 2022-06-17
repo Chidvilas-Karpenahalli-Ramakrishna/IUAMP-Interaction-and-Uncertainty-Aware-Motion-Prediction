@@ -1,5 +1,5 @@
 # nuScenes dev-kit.
-# Code written by Oscar Beijbom, 2019.
+# IAUMP written by Oscar Beijbom, 2019.
 
 from collections import defaultdict
 from typing import List, Dict, Tuple
